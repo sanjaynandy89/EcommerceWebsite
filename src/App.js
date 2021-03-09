@@ -1,25 +1,36 @@
+import React, { Component } from 'react'
 import logo from './logo.svg';
 import './App.css';
-
-function App() {
+import 'bootstrap/dist/css/bootstrap.min.css'
+import {BrowserRouter as Router, Route,Switch} from 'react-router-dom'
+import Navbar from './Components/Navbar';
+import ProductList from './Components/ProductList';
+import Product from './Components/Product';
+import Default from './Components/Default';
+import Chart from './Components/Chart';
+import Details from './Components/Details';
+import SignUp from './Components/SignUp';
+import Login from './Components/Login';
+class App extends Component {
+  render(){
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <React.Fragment>
+      
+      <Router>
+      <Navbar></Navbar>
+      <Switch>
+      <Route exact path="/" component={ProductList}></Route>
+      <Route path="/details" component={Details}></Route>
+      <Route path="/products" component={Product}></Route>
+      <Route path="/chart" component={Chart}></Route>
+      <Route path="/signup" component={SignUp}></Route>
+      <Route path="/login" component={Login}></Route>
+      <Route component={Default}></Route>
+      </Switch>
+      </Router>
+    </React.Fragment>
+
   );
 }
-
+}
 export default App;
