@@ -11,6 +11,7 @@ import Chart from './Components/Chart';
 import Details from './Components/Details';
 import SignUp from './Components/SignUp';
 import Login from './Components/Login';
+import ProductReplica from './Components/ProductReplica';
 class App extends Component {
   render(){
   return (
@@ -21,7 +22,7 @@ class App extends Component {
       <Switch>
       <Route exact path="/" component={ProductList}></Route>
       <Route path="/details" component={Details}></Route>
-      <Route path="/products" component={Product}></Route>
+      <Route path="/products" component={ProductReplica}></Route>
       <Route path="/chart" component={Chart}></Route>
       <Route path="/signup" component={SignUp}></Route>
       <Route path="/login" component={Login}></Route>

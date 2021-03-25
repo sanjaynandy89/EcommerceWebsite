@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import styled from "styled-components";
 import {storedProducts} from "../data"
-export default class ProductList extends Component {
+export default class Product extends Component {
   state={
     products:[]
   }
