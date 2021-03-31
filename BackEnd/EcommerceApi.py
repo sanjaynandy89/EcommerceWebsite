@@ -505,36 +505,40 @@ class product(Resource):
 #province varchar(50),country varchar(50),createdAt datetime,updatedAt datetime,content text,primary key(id));
         str = "select * from  product"
         self.cur.execute(str)
-        n = self.cur.fetchall()
-        return jsonify(n)
+
+        row_headers = [x[0] for x in self.cur.description]  # this will extract row headers
+        rv = self.cur.fetchall()
+        print(row_headers)
+        json_data = []
+        for result in rv:
+            json_data.append(dict(zip(row_headers, result)))
+        print(json_data)
+        response = jsonify(json_data)
+        # Enable Access-Control-Allow-Origin
+        response.headers.add("Access-Control-Allow-Origin", "*")
+        return response
 #This is for create operation
 #POST CORRESPONDS TO INSERT INTO DATABSAE
     def post(self):
       data=request.get_json()
-
+      print(data)
       id=data['id']
-      userID=data['userID']
       title=data['title']
-      metaTitle=data['metaTitle']
-      slug=data['slug']
-      summary=data['summary']
-      type=data['type']
-      sku=data['sku']
+      img=data['img']
       price=data['price']
       discount=data['discount']
-      quantity=data['quantity']
-      shop=data['shop']
-      createdAt=data['createdAt']
-      updatedAt=data['updatedAt']
-      publishedAt=data['publishedAt']
-      startsAt=data['startsAt']
-      endsAt=data['endsAt']
-      content=data['content']
+      company= data['company']
+      info = data['info']
+      inCart=data['inCart']
+      count=data['count']
+      total=data['total']
+
+
 
       try:
-        str = "insert into product values('%d','%d','%s','%s','%s,'%s','%d','%s','%f','%f','%d','%d','%s','%s','%s','%s','%s','%s')"
+        str = "insert into product values('%d',%s','%s','%f,'%f,'%s','%s','%s','%d','%f')"
         print("Hello")
-        args = ( id,userID,title,metaTitle,slug,summary,type,sku,price,discount,quantity,shop,createdAt,updatedAt,publishedAt,startsAt,endsAt,content)
+        args = (id,title,img,price,discount,company,info,inCart,count,total)
         print("hi")
         self.cur.execute(str % args)
         self.con.commit()
