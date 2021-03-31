@@ -1,5 +1,6 @@
 import React,{Component} from "react";
-import {storedProducts} from "./data"
+//import {storedProducts} from "./data"
+import axios from 'axios';
 const ProductContext=React.createContext();
 //Provider
 //Consumer
@@ -7,14 +8,20 @@ class ProductProvider extends Component
 {
     state={
         products:[],
-        detailProd:{}
+        detailProd:{},
+        cart:[],
     }
     componentDidMount()
-    {
+    {  
+      
         this.storedProducts();
     }
     storedProducts=()=>
     {  
+        axios.get('http://127.0.0.1:5000/product')
+      .then(res => {
+        const storedProducts = res.data;
+        console.log(storedProducts)
         let tempProducts=[];
         storedProducts.forEach(item=>{
             const singleItem={...item};
@@ -25,6 +32,8 @@ class ProductProvider extends Component
          return {products:tempProducts};
         });
 
+      })
+        
     }
     getItem=id=>
     {
@@ -41,9 +50,20 @@ class ProductProvider extends Component
         }
         )
     }
-    addToCart=()=>
+    addToCart=(id)=>
     {
         console.log('Hello from Addtocart')
+        let tempProducts=[...this.state.products]
+        const index=tempProducts.indexOf(this.getItem(id))
+        const product=tempProducts[index]
+        product.inCart=true
+        product.count=1
+        const price=product.price
+        this.setState(
+            ()=>{
+                return {products:tempProducts,cart:[...this.state.cart,product]}
+            }
+        )
     }
     render(){
         return(

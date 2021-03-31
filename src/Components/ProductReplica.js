@@ -6,18 +6,22 @@ export default class ProductReplica extends Component {
     render() {
        const {id,title,img,price,discount,inCart}=this.props.product;
         return (
-       <ProductWrapper className="col-md-3 col-sm-6">
+       
+           <ProductConsumer> 
+           {value=>(  
+           <ProductWrapper className="col-md-3 col-sm-6">      
            <div className="product-grid">
-           <ProductConsumer>  
-             {value=>(
-             <div className="product-image" onClick={()=>value.handleDetail(id)}>
+           <div className="product-image" onClick={()=>value.handleDetail(id)}>
                <Link to="/details" >
                <img src={img}/>  
                </Link>
             <span class="product-discount-label">-{discount}</span>
+            </div>
+            <div className="product-content">
             <h3 class="title"><a href="#">{title}</a></h3>
             <div class="price"><span>${price}.00</span> ${parseInt(price*((100-discount)/100))}.00</div>
-            <button className="add-to-cart"  disabled={inCart?true:false} onClick={()=>{console.log('added to the cart')}}>
+            <Link to="/cart">
+            <button className="add-to-cart"  disabled={inCart?true:false} onClick={()=>{value.addToCart(id)}}>
             {inCart?(
             <p disabled>{" "}GoToChart</p>
             )
@@ -26,18 +30,18 @@ export default class ProductReplica extends Component {
             <p >add to cart</p>
             )}
             </button>
-        </div>
-            
-            
+            </Link>
+             </div>
+             </div>
+             </ProductWrapper>
              )}
              
                
              </ProductConsumer>  
              
-           </div>
     
 
-       </ProductWrapper>
+      
         );
     }
   }
